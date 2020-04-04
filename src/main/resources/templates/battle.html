@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:text-align="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-load-image/2.24.0/load-image.all.min.js"></script>
+
+
+</head>
+
+
+<style th:inline="css">
+    img{
+        position: absolute;
+        width: 100%;
+        height: 100%;
+    }
+</style>
+
+<body>
+<div id="wrapperdiv" class="wrapper wrapper-content" style="padding:0">
+    <div class="row">
+        <div class="col-lg-12" style="padding:0px">
+            <div class="ibox float-e-margins" style="margin:0px">
+                <div class="ibox-content" style="height:90vh;text-align:center;padding:0px;background-color:#222222;">
+                    <div id="wleft" style="width:50%;height:100%;max-width:50%;max-height:100%; background-repeat:no-repeat;background-size:contain;background-position:right center;position:relative;z-index:1" name="710572">
+                        <img style="cursor:pointer; height: 100%; width:100%; overflow: hidden; display: flex; align-items: center; justify-content: center;" id="left_img" th:src="${leftImage}">
+                    </div>
+                    <div id="wright" style="width:50%;height:100%;max-width:50%;max-height:100%;background-repeat:no-repeat;background-size:contain;background-position:left center;position:relative;left:50%;top:-100%;z-index:2" name="710630">
+                        <img style="cursor:pointer; height: 100%; width:100%; overflow: hidden; display: flex; align-items: center; justify-content: center;"  id="right_img"th:src="${rightImage}">
+                    </div>
+                    <div id="ctitle"style="width:100%;height:calc(3 * (1vw + 1vh - 1vmin));max-width:100%;max-height:50%;position:relative;left:0%;top:-200%;z-index:4;vertical-align:center;line-height:calc(3 * (1vw + 1vh - 1vmin));background-color: rgba( 0, 0, 0, 0.5 );color:white;font-size:calc(3 * (1vw + 1vh - 1vmin))" th:text="'재윤 월드컵      '+${currLevel}+'강     '+${currBattleCnt}+'/'+${halfCurrLevel}"></div>
+                    <div id="versus" style="width:100%;height:calc(7 * (1vw + 1vh - 1vmin));max-width:100%;max-height:50%;background-image:url('/versus.png');background-repeat:no-repeat;background-size:contain;background-position:center top;background-color:;position:relative;left:0%;top:-155%;z-index:3;pointer-events:none;"></div>
+                    <div style="width:100%;height:calc(7 * (1vw + 1vh - 1vmin));max-width:100%;max-height:50%;background-color:;position:relative;left:0%;top:-155%;z-index:4;color:white;font-size:calc(2 * (1vw + 1vh - 1vmin));text-shadow:-1px 0 #000000,0 1px #000000,1px 0 #000000,0 -1px #000000;-moz-text-shadow:-1px 0 #000000,0 1px #000000,1px 0 #000000,0 -1px #000000;-webkit-text-shadow:-1px 0 #000000,0 1px #000000,1px 0 #000000,0 -1px #000000;pointer-events:none;">
+                        <div id="wleftn" style="width:50%;display:inline-block;text-align:left;padding-right:10%">마파두부 덮밥</div>
+                        <div id="wrightn" style="width:50%;display:inline-block;text-align:right;padding-left:10%">쭈꾸미 볶음</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    showGoodImg();
+
+    function spreadView(result){
+        document.getElementById("left_img").src = "/images/" + result.leftNum + ".jpg";
+        document.getElementById("right_img").src = "/images/" + result.rightNum + ".jpg";
+        document.getElementById("ctitle").innerText = "재윤 월드컵    " + result.currLevel+"강    " + result.currBattleCnt + "/" + result.halfCurrLevel;
+        document.getElementById("wleftn").innerHTML = result.leftDesc;
+        document.getElementById("wrightn").innerHTML = result.rightDesc;
+        showGoodImg();
+    }
+    function showGoodImg(){
+        var srcLeft = document.getElementById("left_img").src;
+        console.log(srcLeft);
+        fetch(srcLeft)
+            .then(res=>res.blob())
+            .then(blob=>{
+                loadImage(
+                    blob,
+                    function(img,data){
+                        $("#left_img").attr("src",img.toDataURL("image/jpeg"));
+                    },
+                    {orientation:true}
+                )
+            });
+
+        var srcRight = document.getElementById("right_img").src;
+        console.log(srcRight);
+        fetch(srcRight)
+            .then(res=>res.blob())
+            .then(blob=>{
+                loadImage(
+                    blob,
+                    function(img,data){
+                        $("#right_img").attr("src",img.toDataURL("image/jpeg"));
+                    },
+                    {orientation:true}
+                )
+            });
+    }
+
+</script>
+
+<script th:inline = "javascript" type="text/javascript">
+    /* <![CDATA[ */
+    var currBattleCnt = /*[[ ${currBattleCnt} ]]*/;
+    var currLevel = /*[[ ${currLevel} ]]*/;
+    var remain = /*[[ ${remain} ]]*/;
+    var selected = /*[[ ${selected} ]]*/;
+    var leftNum = /*[[ ${leftNum} ]]*/;
+    var rightNum = /*[[ ${rightNum} ]]*/;
+    document.getElementById("wleftn").innerHTML = /*[[ ${leftDesc} ]]*/;
+    document.getElementById("wrightn").innerHTML = /*[[ ${rightDesc} ]]*/;
+
+    var doubleClickFlag = false;
+
+    document.getElementById("wleft").onclick = function(){
+
+        if(doubleClickFlag){ return;}
+        doubleClickFlag = true;
+        selected.push(
+            leftNum
+        );
+        console.log(selected);
+
+        //leftNum 의 원소 삭제
+        var rmIdxL = remain.indexOf(leftNum);
+        var rmIdxR = remain.indexOf(rightNum);
+        if(rmIdxL >-1) remain.splice(rmIdxL,1);
+        if(rmIdxR >-1) remain.splice(rmIdxR,1);
+
+        var params = {
+            currBattleCnt : currBattleCnt,
+            currLevel : currLevel,
+            remain: remain,
+            selected:selected,
+        };
+        console.log(remain.length)
+        if(remain.length == 0 && selected.length == 1){
+            window.location.href="/last?winner="+selected[0];
+
+        }
+
+        document.getElementById("versus").style.backgroundImage = "url('/810.gif')" ;
+        setTimeout(function(){
+            $.ajax({
+                type:"POST",
+                url :"/hello/battle",
+                data:JSON.stringify(params),
+                contentType: "application/json",
+                success:function(result){
+                    if(result){
+                        console.log("good");
+                        console.log(result);
+                        currBattleCnt = result.currBattleCnt;
+                        currLevel = result.currLevel;
+                        remain = result.remain;
+                        selected = result.selected;
+                        leftNum = result.leftNum;
+                        rightNum = result.rightNum;
+                        spreadView(result);
+                    }else{
+                        alert("오류 발생!");
+                    }
+                    doubleClickFlag = false;
+                    document.getElementById("versus").style.backgroundImage = "url('/versus.png')" ;
+                },
+                error:function(){
+                    alert("오류 발생");
+                    doubleClickFlag = false;
+                    document.getElementById("versus").style.backgroundImage = "url('/versus.png')" ;
+                }
+
+            })
+        }, 500);
+    }
+
+    document.getElementById("wright").onclick = function(){
+        if(doubleClickFlag){ return;}
+        doubleClickFlag = true;
+        selected.push(
+            rightNum
+        );
+        console.log(selected);
+
+        //leftNum 의 원소 삭제
+        var rmIdxL = remain.indexOf(leftNum);
+        var rmIdxR = remain.indexOf(rightNum);
+        if(rmIdxL >-1) remain.splice(rmIdxL,1);
+        if(rmIdxR >-1) remain.splice(rmIdxR,1);
+
+        var params = {
+            currBattleCnt : currBattleCnt,
+            currLevel : currLevel,
+            remain: remain,
+            selected:selected,
+        };
+        if(remain.length == 0 && selected.length == 1){
+            setTimeout(function(){
+                $.ajax({
+                    type:"GET",
+                    url:"/hello/last",
+                    data:JSON.stringify(params),
+                    contentType:"application/json",
+                    success:function(result){
+                        window.location.replace(result);
+                    },
+                    error:function(){
+                        alert("오류발생");
+                    }
+                })
+            }, 500);
+            return;
+        }
+
+        document.getElementById("versus").style.backgroundImage = "url('/810.gif')" ;
+        setTimeout(function(){
+            $.ajax({
+                type:"POST",
+                url :"/hello/battle",
+                data:JSON.stringify(params),
+                contentType: "application/json",
+                success:function(result){
+                    if(result){
+                        console.log("good");
+                        console.log(result);
+                        currBattleCnt = result.currBattleCnt;
+                        currLevel = result.currLevel;
+                        remain = result.remain;
+                        selected = result.selected;
+                        leftNum = result.leftNum;
+                        rightNum = result.rightNum;
+                        spreadView(result);
+                    }else{
+                        alert("오류 발생!");
+                    }
+                    doubleClickFlag = false;
+                    document.getElementById("versus").style.backgroundImage = "url('/versus.png')" ;
+                },
+                error:function(){
+                    alert("오류 발생");
+                    doubleClickFlag = false;
+                    document.getElementById("versus").style.backgroundImage = "url('/versus.png')" ;
+                }
+
+            })
+        }, 1500);
+    }
+
+    /*]]>*/
+</script>
+
+</body>
+</html>

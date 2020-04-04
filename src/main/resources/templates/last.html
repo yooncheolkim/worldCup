@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:text-align="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-load-image/2.24.0/load-image.all.min.js"></script>
+</head>
+<body>
+
+
+
+<div class="ibox-content" style="height:80vh;text-align:center;padding:0px;background-color:#222222;">
+    <div id="rleft" style="text-align: center;height:100%;max-height:100%;background-repeat:no-repeat;background-size:contain;background-position:center;position:relative;z-index:1" name="2006">
+        <img style=" cursor:pointer; height: 100%; overflow: hidden; display: flex; align-items: center; justify-content: center;" id="left_img" th:src="${winnerImage}">
+    </div>
+    <div style="width:100%;height:calc(3 * (1vw + 1vh - 1vmin));max-width:100%;max-height:50%;position:relative;left:0%;top:-100%;z-index:4;vertical-align:center;line-height:calc(3 * (1vw + 1vh - 1vmin));background-color: rgba( 0, 0, 0, 0.5 );color:white;font-size:calc(3 * (1vw + 1vh - 1vmin))">재윤 월드컵&nbsp;&nbsp;&nbsp;우승</div>
+    <div id="winnerDesc" style="width:100%;height:calc(7 * (1vw + 1vh - 1vmin));max-width:100%;max-height:50%;background-color:;position:relative;left:0%;top:-30%;z-index:4;color:white;font-size:calc(3 * (1vw + 1vh - 1vmin));text-shadow:-1px 0 #000000,0 1px #000000,1px 0 #000000,0 -1px #000000;-moz-text-shadow:-1px 0 #000000,0 1px #000000,1px 0 #000000,0 -1px #000000;-webkit-text-shadow:-1px 0 #000000,0 1px #000000,1px 0 #000000,0 -1px #000000;pointer-events:none;"><div id="wleftn" style="display:inline-block;text-align:right;padding-right:10%">농심 메밀소바</div></div>
+</div>
+
+
+<script th:inline="javascript" type="text/javascript">
+    /* <![CDATA[ */
+    var winner = /*[[ ${winner} ]]*/;
+    var desc = /*[[ ${desc} ]]*/;
+
+    document.getElementById("winnerDesc").innerHTML = desc;
+
+    spreadView();
+
+    function spreadView(){
+        //document.getElementById("rleft").src = "/images/" + winner + ".jpg";
+        document.getElementById("winnerDesc").innerHTML = desc;
+        showGoodImg();
+    }
+    function showGoodImg(){
+        var srcLeft = document.getElementById("left_img").src;
+        console.log(srcLeft);
+        fetch(srcLeft)
+            .then(res=>res.blob())
+            .then(blob=>{
+                loadImage(
+                    blob,
+                    function(img,data){
+                        $("#left_img").attr("src",img.toDataURL("image/jpeg"));
+                    },
+                    {orientation:true}
+                )
+            });
+    }
+    /*]]>*/
+</script>
+
+</body>
+</html>
