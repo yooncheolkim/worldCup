@@ -7,7 +7,7 @@ branches:
 	only:
 		- master
 #travis CI 서버의 home
-script: "./mvnw clean package -DskipTests=true"
+script: ./mvnw clean package -DskipTests=true
 
 
 notifications:
