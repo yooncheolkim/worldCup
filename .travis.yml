@@ -1,0 +1,16 @@
+#travisCI
+language: java
+jdk:
+	- openjdk8
+
+branches:
+	only:
+		-master
+#travis CI 서버의 home
+script: "mvn clean package -DskipTests=true"
+
+
+notifications:
+	email:
+		recipients:
+			- yoonchul15@gmail.com
