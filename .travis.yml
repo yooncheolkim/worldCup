@@ -14,11 +14,17 @@ email:
 recipients: yoonchul15@gmail.com
 
 
+before_deploy:
+ - zip -r jaeyoon-worldcup *
+ - mkdir -p deploy
+ - mv jaeyoon-worldcup.zip deploy/jaeyoon-worldcup.zip
+
+
 deploy:
   provider: s3
   access_key_id: $AWS_ACCESS_KEY # Travis repo settings에 설정된 값
   secret_access_key: $AWS_SECRET_KEY # Travis repo settings에 설정된 값
-  bucket: jaeyoon-worldcup-deploy # 6-3-3에서 생성한 S3 버킷
+  bucket: jaeyoon-worldcup-deploy # S3 버킷
   region: ap-northeast-2
   skip_cleanup: true
   acl: public_read
