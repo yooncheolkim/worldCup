@@ -1,18 +1,13 @@
 #travisCI
 language: java
-jdk:
-	- openjdk8
+jdk: openjdk8
 
 branches:
-	only:
-		- master
+ only: master
 #travis CI 서버의 home
-script:
-	- ./mvnw clean package -DskipTests=true
+script: ./mvnw clean package -DskipTests=true
 
 
 notifications:
-	email:
-		recipients:
-			- yoonchul15@gmail.com
-			- yoonchul15@naver.com
+email:
+recipients: yoonchul15@gmail.com
