@@ -5,7 +5,7 @@ jdk:
 
 branches:
 	only:
-		-master
+		- master
 #travis CI 서버의 home
 script: "mvn clean package -DskipTests=true"
 
